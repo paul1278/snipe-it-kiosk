@@ -9,4 +9,9 @@ export default {
     state.loggedIn = true;
     state.user = user;
   },
+  logout: function (state) {
+    state.loggedIn = false;
+    state.user = null;
+    state.apiKey = null;
+  },
 };
