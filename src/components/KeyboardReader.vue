@@ -9,6 +9,12 @@ export default {
     clearInterval: null,
     text: "",
   }),
+  props: {
+    match: {
+      type: RegExp,
+      default: null,
+    }
+  },
   mounted: function () {
     let self = this;
     window.onkeyup = function (e) {
@@ -20,6 +26,15 @@ export default {
         self.text = "";
       } else {
         self.text += e.key;
+        if (self.match != null) {
+          if (!self.text.match(self.match)) {
+            console.log("Clearing");
+            self.text = "";
+          } else {
+            self.$emit("read", self.text);
+          }
+          clearInterval(self.clearInterval);
+        }
         console.log(self.text);
         self.setClearInterval();
       }
