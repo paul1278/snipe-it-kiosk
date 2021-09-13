@@ -6,49 +6,25 @@
     <b-alert :show="this.showAlert" variant="danger" fade>
       This login-id is invalid, please try again.
     </b-alert>
+    <KeyboardReader @read="(resp) => tryLogin(resp)" />
   </b-container>
 </template>
 
 <script>
 import sha512 from "js-sha512";
+import KeyboardReader from "@/components/KeyboardReader.vue";
 export default {
+  components: { KeyboardReader },
   name: "Login",
   data: () => ({
-    loginClearInterval: null,
-    loginText: "",
     showAlert: false,
     loading: false,
   }),
-  mounted: function () {
-    let self = this;
-    window.onkeyup = function (e) {
-      self.showAlert = false;
-      if (e.key == "Enter") {
-        clearInterval(this.loginClearInterval);
-        self.tryLogin();
-      } else {
-        self.loginText += e.key;
-        console.log(self.loginText);
-        self.setLoginClearInterval();
-      }
-    };
-  },
-  beforeDestroy: function () {
-    window.onkeyup = null;
-    clearInterval(this.loginClearInterval);
-  },
   methods: {
-    setLoginClearInterval: function () {
-      let self = this;
-      clearInterval(this.loginClearInterval);
-      this.loginClearInterval = setInterval(() => (self.loginText = ""), 2000);
-    },
-    tryLogin: function () {
+    tryLogin: function (resp) {
       this.loading = true;
       this.axios
-        .get(
-          "/keys/" + sha512(this.loginText + this.$store.state.config.keySalt)
-        )
+        .get("/keys/" + sha512(resp + this.$store.state.config.keySalt))
         .then((resp) => {
           console.log(resp);
           this.$store.commit("login", resp.data);
@@ -66,7 +42,6 @@ export default {
         })
         .finally(() => {
           this.loading = false;
-          this.loginText = "";
         });
     },
   },
