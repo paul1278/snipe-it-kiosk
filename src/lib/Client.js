@@ -9,6 +9,13 @@ function install(Vue) {
       headers: {
         Authorization: "Bearer " + this.$store.state.apiKey,
       },
+    }).then((resp) => {
+      if (resp.data.status != null) {
+        if (resp.data.status == "error") {
+          throw new Error(resp);
+        }
+      }
+      return resp;
     });
   };
 }
