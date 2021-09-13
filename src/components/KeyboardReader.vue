@@ -13,6 +13,7 @@ export default {
     let self = this;
     window.onkeyup = function (e) {
       self.showAlert = false;
+      self.$emit("startReading");
       if (e.key == "Enter") {
         clearInterval(self.clearInterval);
         self.$emit("read", self.text);
