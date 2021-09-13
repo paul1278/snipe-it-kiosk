@@ -13,7 +13,7 @@ export default {
     match: {
       type: RegExp,
       default: null,
-    }
+    },
   },
   mounted: function () {
     let self = this;
