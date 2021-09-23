@@ -17,20 +17,18 @@
         </a>
       </b-col>
     </b-row>
-    <KeyboardReader @read="this.shortcut" :match="/^[ciul]/i" />
+    <Shortcut shortcut="c" href="/scan" />
+    <Shortcut shortcut="i" href="/scan/info" />
+    <Shortcut shortcut="u" href="/user" />
+    <Shortcut shortcut="l" href="/logout" />
   </b-container>
 </template>
 
 <script>
-import KeyboardReader from "../components/KeyboardReader.vue";
-const keys = {
-  c: "/scan",
-  i: "/scan",
-  u: "/scan",
-  l: "/scan",
-};
+import Shortcut from "../components/Shortcut.vue";
+
 export default {
-  components: { KeyboardReader },
+  components: { Shortcut },
   name: "Home",
   data: () => ({
     navigation: [
@@ -41,11 +39,7 @@ export default {
     ],
   }),
   mounted: function () {},
-  methods: {
-    shortcut: function (e) {
-      this.$router.push(keys[e]);
-    },
-  },
+  methods: {},
 };
 </script>
 

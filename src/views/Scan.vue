@@ -7,7 +7,7 @@
       This asset was not found.
     </b-alert>
     <div class="mt-5">
-      <b-btn @click="$router.push('/')">Back</b-btn>
+      <Button variant="primary" href="/" shortcut="b">Back</Button>
     </div>
     <Scanner
       @scan="this.scan"
@@ -18,9 +18,10 @@
 </template>
 
 <script>
+import Button from "../components/Button.vue";
 import Scanner from "../components/Scanner.vue";
 export default {
-  components: { Scanner },
+  components: { Button, Scanner },
   name: "Scan",
   data: () => ({
     showAlert: false,
