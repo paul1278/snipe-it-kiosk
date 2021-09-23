@@ -6,6 +6,7 @@
     "
   >
     <slot />
+    <span v-if="this.shortcut"> [{{ this.shortcut }}]</span>
     <Shortcut
       v-if="this.shortcut != null"
       :shortcut="this.shortcut"
