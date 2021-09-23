@@ -6,6 +6,9 @@
     <b-alert :show="this.showAlert" variant="danger" fade>
       This asset was not found.
     </b-alert>
+    <div class="mt-5">
+      <b-btn @click="$router.push('/')">Back</b-btn>
+    </div>
     <Scanner
       @scan="this.scan"
       @startScan="showAlert = false"
