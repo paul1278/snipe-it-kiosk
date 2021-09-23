@@ -28,7 +28,7 @@ export default {
     this.instance = function (e) {
       self.showAlert = false;
       self.$emit("startReading");
-      if (e.key == "Enter") {
+      if (e.key == "Enter" && self.match == null) {
         clearInterval(self.clearInterval);
         self.$emit("read", self.text);
         self.text = "";
