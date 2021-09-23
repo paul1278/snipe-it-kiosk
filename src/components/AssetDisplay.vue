@@ -51,8 +51,8 @@ export default {
   computed: {
     items: function () {
       let a = [
-        { icon: "", name: "Model number", value: this.asset.model_number },
-        { icon: "", name: "Serial number", value: this.asset.serial },
+        { icon: "hdd", name: "Model number", value: this.asset.model_number },
+        { icon: "key", name: "Serial number", value: this.asset.serial },
         {
           icon: "map",
           name: "Location",
