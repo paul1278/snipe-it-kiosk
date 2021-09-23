@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>{{ this.asset.manufacturer.name }} {{ this.asset.model.name }}</h2>
-    <b-row class="mt-4">
+    <b-row class="mt-4" v-if="this.checkState == 0">
       <b-col>
         <b-table :items="items">
           <template #head(icon)="">
@@ -33,15 +33,51 @@
         <b-alert show variant="success" v-else>
           <b-icon-check />This asset can be deployed
         </b-alert>
-        <b-button
+        <Button
           variant="primary"
-          v-if="this.asset.status_label.status_meta != 'undeployable'"
+          shortcut="c"
+          @click="() => checkout()"
+          v-if="
+            this.asset.status_label.status_meta != 'undeployable' &&
+            this.asset.status_label.status_meta != 'deployed'
+          "
         >
           Check-out to me
-        </b-button>
+        </Button>
+        <Button
+          variant="primary"
+          shortcut="c"
+          @click="() => checkin()"
+          v-if="
+            this.asset.status_label.status_meta != 'undeployable' &&
+            this.asset.status_label.status_meta == 'deployed'
+          "
+        >
+          Check-in
+        </Button>
         <Button variant="primary" @click="$router.back()" shortcut="b">
           Back
         </Button>
+      </b-col>
+    </b-row>
+    <b-row v-if="this.checkState != 0">
+      <b-col>
+        <b-spinner class="spinner-big mt-4 mb-4" v-if="this.checkState == 1" />
+        <div v-if="this.checkState == 2">
+          <b-icon-check variant="success" class="icon-big mt-4 mb-4" />
+          <h5>Checked out to {{ this.$store.state.user.name }}</h5>
+        </div>
+        <div v-if="this.checkState == 3">
+          <b-icon-check variant="success" class="icon-big mt-4 mb-4" />
+          <h5>Checked in</h5>
+        </div>
+        <div v-if="this.checkState == 4">
+          <b-icon-exclamation-octagon
+            variant="danger"
+            class="icon-big mt-4 mb-4"
+          />
+          <h5>Please put the item back!</h5>
+        </div>
       </b-col>
     </b-row>
   </div>
@@ -52,6 +88,9 @@ import Button from "./Button.vue";
 export default {
   components: { Button },
   name: "AssetDisplay",
+  data: () => ({
+    checkState: 0, // 0: init, 1: loading, 2: success checkout, 3: success checkin, 4: error;
+  }),
   computed: {
     items: function () {
       let a = [
@@ -77,6 +116,45 @@ export default {
     asset: {
       required: true,
       type: Object,
+    },
+  },
+  methods: {
+    checkout: function () {
+      this.checkState = 1;
+      this.$apiCall("POST", "/hardware/" + this.asset.id + "/checkout", {
+        checkout_to_type: "user",
+        assigned_user: this.$store.state.user.id,
+      })
+        .then((resp) => {
+          if (resp.data.status == "success") {
+            this.checkState = 2;
+            setTimeout(() => {
+              this.$router.push("/scan");
+            }, 1000);
+            return;
+          }
+          this.checkState = 4;
+        })
+        .catch(() => {
+          this.checkState = 4;
+        });
+    },
+    checkin: function () {
+      this.checkState = 1;
+      this.$apiCall("POST", "/hardware/" + this.asset.id + "/checkin")
+        .then((resp) => {
+          if (resp.data.status == "success") {
+            this.checkState = 3;
+            setTimeout(() => {
+              this.$router.push("/scan");
+            }, 1000);
+            return;
+          }
+          this.checkState = 4;
+        })
+        .catch(() => {
+          this.checkState = 4;
+        });
     },
   },
 };
