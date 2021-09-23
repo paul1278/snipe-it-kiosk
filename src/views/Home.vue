@@ -17,11 +17,20 @@
         </a>
       </b-col>
     </b-row>
+    <KeyboardReader @read="this.shortcut" :match="/^[ciul]/i" />
   </b-container>
 </template>
 
 <script>
+import KeyboardReader from "../components/KeyboardReader.vue";
+const keys = {
+  c: "/scan",
+  i: "/scan",
+  u: "/scan",
+  l: "/scan",
+};
 export default {
+  components: { KeyboardReader },
   name: "Home",
   data: () => ({
     navigation: [
@@ -32,7 +41,11 @@ export default {
     ],
   }),
   mounted: function () {},
-  methods: {},
+  methods: {
+    shortcut: function (e) {
+      this.$router.push(keys[e]);
+    },
+  },
 };
 </script>
 
