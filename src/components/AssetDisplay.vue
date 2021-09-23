@@ -39,14 +39,18 @@
         >
           Check-out to me
         </b-button>
-        <b-button variant="primary" href="#/scan"> Back </b-button>
+        <Button variant="primary" @click="$router.back()" shortcut="b">
+          Back
+        </Button>
       </b-col>
     </b-row>
   </div>
 </template>
 
 <script>
+import Button from "./Button.vue";
 export default {
+  components: { Button },
   name: "AssetDisplay",
   computed: {
     items: function () {
