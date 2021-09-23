@@ -35,6 +35,7 @@ export default {
           this.$store.commit("setUser", {
             name: resp.data.name,
             email: resp.data.email,
+            id: resp.data.id,
           });
         })
         .catch((e) => {
