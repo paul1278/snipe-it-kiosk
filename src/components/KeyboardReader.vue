@@ -32,6 +32,7 @@ export default {
             self.text = "";
           } else {
             self.$emit("read", self.text);
+            self.text = "";
           }
           clearInterval(self.clearInterval);
         }
