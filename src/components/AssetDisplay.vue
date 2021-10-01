@@ -69,7 +69,12 @@
         </div>
         <div v-if="this.checkState == 3">
           <b-icon-check variant="success" class="icon-big mt-4 mb-4" />
-          <h5>Checked in</h5>
+          <h5>
+            Checked in
+            <span v-if="this.locationOnCheckin">
+              , please put it to location: {{ this.locationOnCheckin }}
+            </span>
+          </h5>
         </div>
         <div v-if="this.checkState == 4">
           <b-icon-exclamation-octagon
@@ -90,6 +95,7 @@ export default {
   name: "AssetDisplay",
   data: () => ({
     checkState: 0, // 0: init, 1: loading, 2: success checkout, 3: success checkin, 4: error;
+    locationOnCheckin: null,
   }),
   computed: {
     items: function () {
@@ -144,13 +150,19 @@ export default {
       this.$apiCall("POST", "/hardware/" + this.asset.id + "/checkin")
         .then((resp) => {
           if (resp.data.status == "success") {
-            this.checkState = 3;
-            setTimeout(() => {
-              this.$router.push("/scan");
-            }, 1000);
-            return;
+            return this.$apiCall("GET", "/hardware/" + this.asset.id);
           }
-          this.checkState = 4;
+          throw new Error(resp);
+        })
+        .then((resp) => {
+          this.locationOnCheckin = resp.data.location
+            ? resp.data.location.name
+            : null;
+          this.checkState = 3;
+          setTimeout(() => {
+            this.$router.push("/scan");
+          }, 1000);
+          return;
         })
         .catch(() => {
           this.checkState = 4;
