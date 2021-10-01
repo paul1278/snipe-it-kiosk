@@ -31,12 +31,12 @@ export default {
           return this.$apiCall("GET", "/users/me");
         })
         .then((resp) => {
-          window.location = "#/";
           this.$store.commit("setUser", {
             name: resp.data.name,
             email: resp.data.email,
             id: resp.data.id,
           });
+          window.location = "#/";
         })
         .catch((e) => {
           this.showAlert = true;
