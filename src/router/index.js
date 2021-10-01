@@ -6,6 +6,7 @@ import Login from "@/views/Login";
 import Logout from "@/views/Logout";
 import Scan from "@/views/Scan";
 import ScanResult from "@/views/ScanResult";
+import Check from "@/views/Check";
 
 Vue.use(VueRouter);
 
@@ -37,6 +38,14 @@ const routes = [
     path: "/logout",
     name: "Logout",
     component: Logout,
+  },
+  {
+    path: "/check",
+    name: "Check",
+    component: Check,
+    meta: {
+      requiresAuthentication: false,
+    },
   },
 ];
 
