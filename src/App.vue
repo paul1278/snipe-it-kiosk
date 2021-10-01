@@ -2,8 +2,7 @@
   <div id="app">
     <Navbar />
     <div v-if="this.ready">
-      <router-view v-if="this.$store.state.loggedIn" />
-      <Login v-else />
+      <router-view />
     </div>
     <div v-else class="text-center">
       <b-spinner v-if="!this.showAlert" class="spinner-big mt-4 mb-4" />
@@ -26,11 +25,10 @@
 </template>
 
 <script>
-import Login from "@/views/Login";
 import Navbar from "@/components/Navbar";
 
 export default {
-  components: { Login, Navbar },
+  components: { Navbar },
   data: () => ({
     showAlert: false,
     ready: false,
@@ -51,6 +49,11 @@ export default {
 </script>
 
 <style lang="scss">
+.spinner-text {
+  width: 17px !important;
+  height: 17px !important;
+  margin-right: 8px;
+}
 .spinner-big {
   width: 200px !important;
   height: 200px !important;
