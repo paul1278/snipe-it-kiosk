@@ -55,7 +55,11 @@
         >
           Check-in
         </Button>
-        <Button variant="primary" @click="$router.back()" shortcut="b">
+        <Button
+          variant="primary"
+          @click="$router.back()"
+          shortcut="b"
+          class="ml-2">
           Back
         </Button>
       </b-col>
