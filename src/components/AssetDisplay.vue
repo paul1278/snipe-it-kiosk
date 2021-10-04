@@ -127,19 +127,14 @@ export default {
   methods: {
     checkout: function () {
       this.checkState = 1;
-      this.$apiCall("POST", "/hardware/" + this.asset.id + "/checkout", {
-        checkout_to_type: "user",
-        assigned_user: this.$store.state.user.id,
-      })
-        .then((resp) => {
-          if (resp.data.status == "success") {
-            this.checkState = 2;
-            setTimeout(() => {
-              this.$router.push("/scan");
-            }, 1000);
-            return;
-          }
-          this.checkState = 4;
+      this.$apiCalls()
+        .checkoutAssetByTag(this.asset.id)
+        .then(() => {
+          this.checkState = 2;
+          setTimeout(() => {
+            this.$router.push("/scan");
+          }, 1000);
+          return;
         })
         .catch(() => {
           this.checkState = 4;
@@ -147,13 +142,8 @@ export default {
     },
     checkin: function () {
       this.checkState = 1;
-      this.$apiCall("POST", "/hardware/" + this.asset.id + "/checkin")
-        .then((resp) => {
-          if (resp.data.status == "success") {
-            return this.$apiCall("GET", "/hardware/" + this.asset.id);
-          }
-          throw new Error(resp);
-        })
+      this.$apiCalls()
+        .checkinAssetByTag(this.asset.id)
         .then((resp) => {
           this.locationOnCheckin = resp.data.location
             ? resp.data.location.name
