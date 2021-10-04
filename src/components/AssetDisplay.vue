@@ -35,7 +35,7 @@
         </b-alert>
         <Button
           variant="primary"
-          shortcut="c"
+          shortcut="Enter"
           @click="() => checkout()"
           v-if="
             this.asset.status_label.status_meta != 'undeployable' &&
@@ -46,7 +46,7 @@
         </Button>
         <Button
           variant="primary"
-          shortcut="c"
+          shortcut="Enter"
           @click="() => checkin()"
           v-if="
             this.asset.status_label.status_meta != 'undeployable' &&
