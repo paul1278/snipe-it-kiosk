@@ -56,6 +56,18 @@ function install(Vue) {
             throw new Error(resp);
           });
       },
+      auditAssetByTag: function (tag) {
+        return self
+          .$apiCall("POST", "/hardware/audit", {
+            asset_tag: tag,
+          })
+          .then((resp) => {
+            if (resp.data.status == "success") {
+              return resp.data.payload;
+            }
+            throw new Error(resp);
+          });
+      },
     };
   };
 }
