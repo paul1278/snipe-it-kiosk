@@ -61,4 +61,7 @@ export default {
 .icon-big {
   font-size: 100px;
 }
+.icon-text {
+  font-size: 17px;
+}
 </style>
