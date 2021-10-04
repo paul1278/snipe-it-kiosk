@@ -6,6 +6,7 @@ import Login from "@/views/Login";
 import Logout from "@/views/Logout";
 import Scan from "@/views/Scan";
 import ScanResult from "@/views/ScanResult";
+import User from "@/views/User";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,11 @@ const routes = [
     path: "/scanresult",
     name: "ScanResult",
     component: ScanResult,
+  },
+  {
+    path: "/user",
+    name: "User",
+    component: User,
   },
   {
     path: "/login",
