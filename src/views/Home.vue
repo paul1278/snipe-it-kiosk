@@ -9,10 +9,10 @@
           :href="np.href"
           :onclick="np.onclick"
         >
-          <b-card :title="np.title">
-            <b-card-text
-              ><b-icon :icon="np.icon" class="icon-big"
-            /></b-card-text>
+          <b-card :title="np.title + ' [' + np.title[0].toLowerCase() + ']'">
+            <b-card-text>
+              <b-icon :icon="np.icon" class="icon-big"/>
+            </b-card-text>
           </b-card>
         </a>
       </b-col>
