@@ -1,4 +1,5 @@
 {
     "keySalt": "changeme",
-    "apiUrl": "http://....."
+    "apiUrl": "http://.....",
+    "pageTitle": "Acme Inc."
 }

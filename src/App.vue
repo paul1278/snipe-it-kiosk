@@ -38,6 +38,7 @@ export default {
       .get("/config.json")
       .then((resp) => {
         this.$store.commit("loadConfig", resp.data);
+        document.title = "Kiosk :: " + resp.data.pageTitle;
         this.ready = true;
       })
       .catch((e) => {
