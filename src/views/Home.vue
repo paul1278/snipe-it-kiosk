@@ -32,8 +32,8 @@ export default {
   name: "Home",
   data: () => ({
     navigation: [
-      { title: "Check in / out", href: "#/scan", icon: "upc-scan" },
-      { title: "Info", href: "#/scan/info", icon: "info-circle" },
+      { title: "Check in / out", href: "#/checkinout", icon: "upc-scan" },
+      { title: "Info", href: "#/scan", icon: "info-circle" },
       { title: "User", href: "#/user", icon: "person-badge" },
       { title: "Logout", href: "#/logout", icon: "box-arrow-left" },
     ],

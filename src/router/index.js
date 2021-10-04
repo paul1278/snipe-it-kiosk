@@ -6,6 +6,7 @@ import Login from "@/views/Login";
 import Logout from "@/views/Logout";
 import Scan from "@/views/Scan";
 import ScanResult from "@/views/ScanResult";
+import CheckInOut from "@/views/CheckInOut";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,11 @@ const routes = [
     path: "/scanresult",
     name: "ScanResult",
     component: ScanResult,
+  },
+  {
+    path: "/checkinout",
+    name: "CheckInOut",
+    component: CheckInOut,
   },
   {
     path: "/login",
