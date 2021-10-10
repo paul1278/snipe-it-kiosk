@@ -37,6 +37,9 @@ export default {
     this.axios
       .get("/config.json")
       .then((resp) => {
+        if (typeof resp.data != "object") {
+          throw new Error("Cannot parse as JSON!");
+        }
         this.$store.commit("loadConfig", resp.data);
         document.title = "Kiosk :: " + resp.data.pageTitle;
         this.ready = true;
