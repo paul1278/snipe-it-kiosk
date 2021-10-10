@@ -9,16 +9,16 @@
           :href="np.href"
           :onclick="np.onclick"
         >
-          <b-card :title="np.title">
-            <b-card-text
-              ><b-icon :icon="np.icon" class="icon-big"
-            /></b-card-text>
+          <b-card :title="np.title + ' [' + np.title[0].toLowerCase() + ']'">
+            <b-card-text>
+              <b-icon :icon="np.icon" class="icon-big"/>
+            </b-card-text>
           </b-card>
         </a>
       </b-col>
     </b-row>
     <Shortcut shortcut="c" href="/scan" />
-    <Shortcut shortcut="i" href="/scan/info" />
+    <Shortcut shortcut="a" href="/audit" />
     <Shortcut shortcut="u" href="/user" />
     <Shortcut shortcut="l" href="/logout" />
   </b-container>
@@ -33,7 +33,7 @@ export default {
   data: () => ({
     navigation: [
       { title: "Check in / out", href: "#/scan", icon: "upc-scan" },
-      { title: "Info", href: "#/scan/info", icon: "info-circle" },
+      { title: "Audit", href: "#/audit", icon: "search" },
       { title: "User", href: "#/user", icon: "person-badge" },
       { title: "Logout", href: "#/logout", icon: "box-arrow-left" },
     ],

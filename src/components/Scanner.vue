@@ -15,10 +15,11 @@ export default {
   methods: {
     scan: function (resp) {
       this.$emit("loading", true);
-      this.$apiCall("GET", "/hardware/bytag/" + resp)
+      this.$apiCalls()
+        .getAssetByTag(resp)
         .then((resp) => {
           this.$emit("loading", false);
-          this.$emit("scan", resp.data);
+          this.$emit("scan", resp);
         })
         .catch(() => {
           this.$emit("loading", false);
