@@ -59,7 +59,8 @@
           variant="primary"
           @click="$router.back()"
           shortcut="b"
-          class="ml-2">
+          class="ml-2"
+        >
           Back
         </Button>
       </b-col>

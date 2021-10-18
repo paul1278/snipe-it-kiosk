@@ -10,7 +10,7 @@
           <template #cell(state)="data">
             <b-spinner v-if="data.item.state == 0" class="spinner-text" />
             <div v-else>
-             <b-icon-check variant="success" class="icon-text" />
+              <b-icon-check variant="success" class="icon-text" />
               Due: {{ data.item.state.next_audit_date.formatted }}
             </div>
           </template>
@@ -69,7 +69,7 @@ export default {
             .auditAssetByTag(resp)
             .then((payload) => {
               this.items[i].state = payload;
-          });
+            });
         }
       }
     },
