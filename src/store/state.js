@@ -5,5 +5,6 @@ export default {
   user: {
     name: "",
     email: "",
+    superuser: false,
   },
 };

@@ -35,6 +35,7 @@ export default {
             name: resp.data.name,
             email: resp.data.email,
             id: resp.data.id,
+            superuser: resp.data.permissions.superuser == 1,
           });
           window.location = "#/";
         })
