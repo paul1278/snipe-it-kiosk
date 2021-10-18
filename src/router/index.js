@@ -8,6 +8,7 @@ import Scan from "@/views/Scan";
 import ScanResult from "@/views/ScanResult";
 import Audit from "@/views/Audit";
 import User from "@/views/User";
+import Generator from "@/views/Generator";
 
 Vue.use(VueRouter);
 
@@ -44,6 +45,11 @@ const routes = [
     meta: {
       requiresAuthentication: false,
     },
+  },
+  {
+    path: "/generator",
+    name: "Generator",
+    component: Generator,
   },
   {
     path: "/logout",
