@@ -1,5 +1,6 @@
 {
     "keySalt": "changeme",
     "apiUrl": "http://.....",
-    "pageTitle": "Acme Inc."
+    "pageTitle": "Acme Inc.",
+    "logoutTimeout": 5000
 }

@@ -35,14 +35,16 @@
       v-if="this.$store.state.user.superuser"
     />
     <Shortcut shortcut="l" href="/logout" />
+    <TimeoutHandler :timeout="this.$store.state.config.logoutTimeout || 5000" />
   </b-container>
 </template>
 
 <script>
 import Shortcut from "../components/Shortcut.vue";
+import TimeoutHandler from "../components/TimeoutHandler.vue";
 
 export default {
-  components: { Shortcut },
+  components: { Shortcut, TimeoutHandler },
   name: "Home",
   data: () => ({
     navigation: [
@@ -66,8 +68,6 @@ export default {
       );
     },
   },
-  mounted: function () {},
-  methods: {},
 };
 </script>
 
