@@ -50,6 +50,9 @@ const routes = [
     path: "/generator",
     name: "Generator",
     component: Generator,
+    meta: {
+      requiresAuthentication: false,
+    },
   },
   {
     path: "/logout",

@@ -11,7 +11,14 @@
       Inside this file, place the API-key connected to the user.
     </div>
     <div class="mt-5">
-      <Button variant="primary" href="/" shortcut="b">Back</Button>
+      <Button
+        v-if="this.$store.state.loggedIn"
+        variant="primary"
+        href="/"
+        shortcut="b"
+        >Back</Button
+      >
+      <Button v-else variant="primary" href="/" shortcut="l">Login</Button>
     </div>
     <KeyboardReader @read="this.scan" />
   </b-container>
