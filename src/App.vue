@@ -35,7 +35,7 @@ export default {
   }),
   beforeMount: function () {
     this.axios
-      .get("/config.json")
+      .get("./config.json")
       .then((resp) => {
         if (typeof resp.data != "object") {
           throw new Error("Cannot parse as JSON!");
