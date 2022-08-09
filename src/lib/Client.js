@@ -70,7 +70,10 @@ function install(Vue) {
       },
       getAllUsers: function () {
         return self.$apiCall("GET", "/users").then((resp) => {
-          return resp.data;
+          if (resp.data.status == "success") {
+            return resp.data;
+          }
+          throw new Error(resp);
         });
       },
     };
