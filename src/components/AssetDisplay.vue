@@ -35,18 +35,15 @@
         </b-alert>
         <b-form-select
           class="mb-3"
-          id=" userDropdown"
           variant="primary"
-          @change="onChange()"
           v-if="
             this.asset.status_label.status_meta != 'undeployable' &&
             this.asset.status_label.status_meta != 'deployed'
           "
-          ref="userDown"
           value-field="value"
           text-field="text"
           :options="userOptions"
-          v-model="selected"
+          v-model="selectedUser"
         >
         </b-form-select>
         <Button
@@ -119,7 +116,7 @@ export default {
     return {
       checkState: 0, // 0: init, 1: loading, 2: success checkout, 3: success checkin, 4: error;
       locationOnCheckin: null,
-      selected: null,
+      selectedUser: null,
       checkedOutName: null,
       userOptions: [{ text: "Please Select an Option", value: null }],
     };
@@ -155,14 +152,14 @@ export default {
     checkout: function () {
       this.checkState = 1;
       this.$apiCalls()
-        .checkoutAssetByTag(this.asset.id, this.selected)
+        .checkoutAssetByTag(this.asset.id, this.selectedUser)
         .then(() => {
           this.checkState = 2;
           setTimeout(() => {
             this.$router.push("/scan");
           }, 1000);
 
-          this.getUserName(this.selected);
+          this.getUserName(this.selectedUser);
           return;
         })
         .catch(() => {
@@ -187,27 +184,20 @@ export default {
           this.checkState = 4;
         });
     },
-    onChange() {},
     getUserName(tag) {
       this.userOptions.forEach((x) => {
         if (x.value == tag) {
           this.checkedOutName = x.text;
-          /*console.log(x.text); debug*/
         }
       });
     },
   },
-  mounted() {},
-
   beforeMount() {
     this.$apiCalls()
       .getAllUsers()
       .then((resp) => {
-        var data = resp.rows;
-        for (var i = 0; i < data.length; i++) {
-          /*var respParse = { text: resp.rows[i].id, value: resp.rows[i].name }
-          console.log(resp.rows[i].id);
-          console.log(respParse.text); debug*/
+        let data = resp.rows;
+        for (let i = 0; i < data.length; i++) {
           this.userOptions.push({
             text: resp.rows[i].name,
             value: resp.rows[i].id,
