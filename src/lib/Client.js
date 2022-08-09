@@ -68,7 +68,7 @@ function install(Vue) {
             throw new Error(resp);
           });
       },
-      getAllUsers: function(){
+      getAllUsers: function () {
         return self.$apiCall("GET", "/users").then((resp) => {
           return resp.data;
         });

@@ -14,35 +14,69 @@
         <img :src="this.asset.image" v-if="this.asset.image" />
       </b-col>
       <b-col>
-        <b-alert show variant="info" v-if="this.asset.status_label.status_meta == 'deployed'">
+        <b-alert
+          show
+          variant="info"
+          v-if="this.asset.status_label.status_meta == 'deployed'"
+        >
           This asset is deployed to:<br />
           {{ this.asset.assigned_to.name }} ({{ this.asset.assigned_to.type }})
         </b-alert>
-        <b-alert show variant="warning" v-else-if="this.asset.status_label.status_meta == 'undeployable'">
+        <b-alert
+          show
+          variant="warning"
+          v-else-if="this.asset.status_label.status_meta == 'undeployable'"
+        >
           <b-icon-exclamation />This asset can not be deployed<br />
           State: {{ this.asset.status_label.name }}
         </b-alert>
         <b-alert show variant="success" v-else>
           <b-icon-check />This asset can be deployed
         </b-alert>
-        <b-form-select class="mb-3" id=" userDropdown" variant="primary" @change="onChange()" v-if="
-        this.asset.status_label.status_meta != 'undeployable' &&
-        this.asset.status_label.status_meta != 'deployed'" ref="userDown" value-field="value" text-field="text"
-          :options="userOptions" v-model="selected">
+        <b-form-select
+          class="mb-3"
+          id=" userDropdown"
+          variant="primary"
+          @change="onChange()"
+          v-if="
+            this.asset.status_label.status_meta != 'undeployable' &&
+            this.asset.status_label.status_meta != 'deployed'
+          "
+          ref="userDown"
+          value-field="value"
+          text-field="text"
+          :options="userOptions"
+          v-model="selected"
+        >
         </b-form-select>
-        <Button variant="primary" shortcut="Enter" @click="() => checkout()" v-if="
-          this.asset.status_label.status_meta != 'undeployable' &&
-          this.asset.status_label.status_meta != 'deployed'
-        ">
+        <Button
+          variant="primary"
+          shortcut="Enter"
+          @click="() => checkout()"
+          v-if="
+            this.asset.status_label.status_meta != 'undeployable' &&
+            this.asset.status_label.status_meta != 'deployed'
+          "
+        >
           Check-out
         </Button>
-        <Button variant="primary" shortcut="Enter" @click="() => checkin()" v-if="
-          this.asset.status_label.status_meta != 'undeployable' &&
-          this.asset.status_label.status_meta == 'deployed'
-        ">
+        <Button
+          variant="primary"
+          shortcut="Enter"
+          @click="() => checkin()"
+          v-if="
+            this.asset.status_label.status_meta != 'undeployable' &&
+            this.asset.status_label.status_meta == 'deployed'
+          "
+        >
           Check-in
         </Button>
-        <Button variant="primary" @click="$router.back()" shortcut="b" class="ml-2">
+        <Button
+          variant="primary"
+          @click="$router.back()"
+          shortcut="b"
+          class="ml-2"
+        >
           Back
         </Button>
       </b-col>
@@ -64,7 +98,10 @@
           </h5>
         </div>
         <div v-if="this.checkState == 4">
-          <b-icon-exclamation-octagon variant="danger" class="icon-big mt-4 mb-4" />
+          <b-icon-exclamation-octagon
+            variant="danger"
+            class="icon-big mt-4 mb-4"
+          />
           <h5>Please put the item back!</h5>
         </div>
       </b-col>
@@ -84,10 +121,8 @@ export default {
       locationOnCheckin: null,
       selected: null,
       checkedOutName: null,
-      userOptions: [
-        { text: 'Please Select an Option', value: null }
-      ]
-    }
+      userOptions: [{ text: "Please Select an Option", value: null }],
+    };
   },
   computed: {
     items: function () {
@@ -139,7 +174,9 @@ export default {
       this.$apiCalls()
         .checkinAssetByTag(this.asset.id)
         .then((resp) => {
-          this.locationOnCheckin = resp.data.location ? resp.data.location.name : null;
+          this.locationOnCheckin = resp.data.location
+            ? resp.data.location.name
+            : null;
           this.checkState = 3;
           setTimeout(() => {
             this.$router.push("/scan");
@@ -150,35 +187,34 @@ export default {
           this.checkState = 4;
         });
     },
-    onChange() {
-    },
-    getUserName(tag){
-      this.userOptions.forEach(x => {
-        if (x.value == tag)
-        {
+    onChange() {},
+    getUserName(tag) {
+      this.userOptions.forEach((x) => {
+        if (x.value == tag) {
           this.checkedOutName = x.text;
           /*console.log(x.text); debug*/
         }
-      })
-    }
+      });
+    },
   },
-  mounted(){
-
-  },
+  mounted() {},
 
   beforeMount() {
     this.$apiCalls()
       .getAllUsers()
-      .then(resp => {
+      .then((resp) => {
         var data = resp.rows;
         for (var i = 0; i < data.length; i++) {
           /*var respParse = { text: resp.rows[i].id, value: resp.rows[i].name }
           console.log(resp.rows[i].id);
           console.log(respParse.text); debug*/
-          this.userOptions.push({ text: resp.rows[i].name, value: resp.rows[i].id });
+          this.userOptions.push({
+            text: resp.rows[i].name,
+            value: resp.rows[i].id,
+          });
         }
       });
-  }
+  },
 };
 </script>
 
