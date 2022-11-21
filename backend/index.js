@@ -1,6 +1,7 @@
 const http = require("http");
+const config = require("./config.json");
 
-const upstreamBase = "";
+const upstreamBase = config.upstream;
 
 const server = http.createServer((req, res) => {
   let upstream = http.request(
