@@ -33,11 +33,11 @@ function install(Vue) {
           return resp.data;
         });
       },
-      checkoutAssetByTag: function (tag, userID) {
+      checkoutAssetByTag: function (tag, userId) {
         return self
           .$apiCall("POST", "/hardware/" + tag + "/checkout", {
             checkout_to_type: "user",
-            assigned_user: userID,
+            assigned_user: userId,
           })
           .then((resp) => {
             if (resp.data.status == "success") {

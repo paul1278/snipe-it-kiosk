@@ -33,19 +33,6 @@
         <b-alert show variant="success" v-else>
           <b-icon-check />This asset can be deployed
         </b-alert>
-        <b-form-select
-          class="mb-3"
-          variant="primary"
-          v-if="
-            this.asset.status_label.status_meta != 'undeployable' &&
-            this.asset.status_label.status_meta != 'deployed'
-          "
-          value-field="value"
-          text-field="text"
-          :options="userOptions"
-          v-model="selectedUser"
-        >
-        </b-form-select>
         <Button
           variant="primary"
           shortcut="Enter"
@@ -55,7 +42,7 @@
             this.asset.status_label.status_meta != 'deployed'
           "
         >
-          Check-out
+          Check-out to me
         </Button>
         <Button
           variant="primary"
@@ -76,6 +63,7 @@
         >
           Back
         </Button>
+        <UserSelector class="mt-2" @user="(id) => checkout(id)" />
       </b-col>
     </b-row>
     <b-row v-if="this.checkState != 0">
@@ -83,7 +71,7 @@
         <b-spinner class="spinner-big mt-4 mb-4" v-if="this.checkState == 1" />
         <div v-if="this.checkState == 2">
           <b-icon-check variant="success" class="icon-big mt-4 mb-4" />
-          <h5>Checked out to {{ this.checkedOutName }}</h5>
+          <h5>Checked out to {{ this.selectedUser.name }}</h5>
         </div>
         <div v-if="this.checkState == 3">
           <b-icon-check variant="success" class="icon-big mt-4 mb-4" />
@@ -108,19 +96,16 @@
 
 <script>
 import Button from "./Button.vue";
+import UserSelector from "./UserSelector.vue";
 
 export default {
-  components: { Button },
+  components: { Button, UserSelector },
   name: "AssetDisplay",
-  data() {
-    return {
-      checkState: 0, // 0: init, 1: loading, 2: success checkout, 3: success checkin, 4: error;
-      locationOnCheckin: null,
-      selectedUser: null,
-      checkedOutName: null,
-      userOptions: [{ text: "Please Select an Option", value: null }],
-    };
-  },
+  data: () => ({
+    checkState: 0, // 0: init, 1: loading, 2: success checkout, 3: success checkin, 4: error;
+    locationOnCheckin: null,
+    selectedUser: null,
+  }),
   computed: {
     items: function () {
       let a = [
@@ -149,17 +134,24 @@ export default {
     },
   },
   methods: {
-    checkout: function () {
+    checkout: function (user) {
+      let id = null;
+      if (user == null) {
+        id = this.$store.state.user.id;
+        this.selectedUser = this.$store.state.user;
+      } else {
+        id = user.id;
+        this.selectedUser = user;
+      }
       this.checkState = 1;
       this.$apiCalls()
-        .checkoutAssetByTag(this.asset.id, this.selectedUser)
+        .checkoutAssetByTag(this.asset.asset_tag, id)
         .then(() => {
           this.checkState = 2;
           setTimeout(() => {
             this.$router.push("/scan");
           }, 1000);
 
-          this.getUserName(this.selectedUser);
           return;
         })
         .catch(() => {
@@ -169,41 +161,20 @@ export default {
     checkin: function () {
       this.checkState = 1;
       this.$apiCalls()
-        .checkinAssetByTag(this.asset.id)
+        .checkinAssetByTag(this.asset.asset_tag)
         .then((resp) => {
-          this.locationOnCheckin = resp.data.location
-            ? resp.data.location.name
-            : null;
+          this.locationOnCheckin = resp.location ? resp.location.name : null;
           this.checkState = 3;
           setTimeout(() => {
             this.$router.push("/scan");
           }, 1000);
           return;
         })
-        .catch(() => {
+        .catch((e) => {
+          console.error(e);
           this.checkState = 4;
         });
     },
-    getUserName(tag) {
-      this.userOptions.forEach((x) => {
-        if (x.value == tag) {
-          this.checkedOutName = x.text;
-        }
-      });
-    },
-  },
-  beforeMount() {
-    this.$apiCalls()
-      .getAllUsers()
-      .then((resp) => {
-        let data = resp.rows;
-        for (let i = 0; i < data.length; i++) {
-          this.userOptions.push({
-            text: resp.rows[i].name,
-            value: resp.rows[i].id,
-          });
-        }
-      });
   },
 };
 </script>
