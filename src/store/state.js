@@ -1,9 +1,10 @@
 export default {
-  config: null,
+  config: {},
   loggedIn: false,
   apiKey: null,
   user: {
     name: "",
     email: "",
+    superuser: false,
   },
 };

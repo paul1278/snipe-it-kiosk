@@ -35,9 +35,13 @@ export default {
   }),
   beforeMount: function () {
     this.axios
-      .get("/config.json")
+      .get("./config.json")
       .then((resp) => {
+        if (typeof resp.data != "object") {
+          throw new Error("Cannot parse as JSON!");
+        }
         this.$store.commit("loadConfig", resp.data);
+        document.title = "Kiosk :: " + resp.data.pageTitle;
         this.ready = true;
       })
       .catch((e) => {
@@ -60,5 +64,8 @@ export default {
 }
 .icon-big {
   font-size: 100px;
+}
+.icon-text {
+  font-size: 17px;
 }
 </style>

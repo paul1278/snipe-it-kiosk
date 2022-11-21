@@ -11,7 +11,11 @@ export default {
   },
   logout: function (state) {
     state.loggedIn = false;
-    state.user = null;
+    state.user = {
+      name: "",
+      email: "",
+      superuser: false,
+    };
     state.apiKey = null;
   },
 };

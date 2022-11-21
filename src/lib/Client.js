@@ -33,11 +33,11 @@ function install(Vue) {
           return resp.data;
         });
       },
-      checkoutAssetByTag: function (tag) {
+      checkoutAssetByTag: function (tag, userId) {
         return self
           .$apiCall("POST", "/hardware/" + tag + "/checkout", {
             checkout_to_type: "user",
-            assigned_user: self.$store.state.user.id,
+            assigned_user: userId,
           })
           .then((resp) => {
             if (resp.data.status == "success") {
@@ -55,6 +55,26 @@ function install(Vue) {
             }
             throw new Error(resp);
           });
+      },
+      auditAssetByTag: function (tag) {
+        return self
+          .$apiCall("POST", "/hardware/audit", {
+            asset_tag: tag,
+          })
+          .then((resp) => {
+            if (resp.data.status == "success") {
+              return resp.data.payload;
+            }
+            throw new Error(resp);
+          });
+      },
+      getAllUsers: function () {
+        return self.$apiCall("GET", "/users").then((resp) => {
+          if (resp.data.total != null) {
+            return resp.data;
+          }
+          throw new Error(resp);
+        });
       },
     };
   };

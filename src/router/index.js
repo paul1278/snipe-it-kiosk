@@ -7,6 +7,9 @@ import Logout from "@/views/Logout";
 import Scan from "@/views/Scan";
 import ScanResult from "@/views/ScanResult";
 import CheckInOut from "@/views/CheckInOut";
+import Audit from "@/views/Audit";
+import User from "@/views/User";
+import Generator from "@/views/Generator";
 
 Vue.use(VueRouter);
 
@@ -32,9 +35,27 @@ const routes = [
     component: CheckInOut,
   },
   {
+    path: "/audit",
+    name: "Audit",
+    component: Audit,
+  },
+  {
+    path: "/user",
+    name: "User",
+    component: User,
+  },
+  {
     path: "/login",
     name: "Login",
     component: Login,
+    meta: {
+      requiresAuthentication: false,
+    },
+  },
+  {
+    path: "/generator",
+    name: "Generator",
+    component: Generator,
     meta: {
       requiresAuthentication: false,
     },
