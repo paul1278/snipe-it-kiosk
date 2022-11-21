@@ -70,7 +70,7 @@ function install(Vue) {
       },
       getAllUsers: function () {
         return self.$apiCall("GET", "/users").then((resp) => {
-          if (resp.data.status == "success") {
+          if (resp.data.total != null) {
             return resp.data;
           }
           throw new Error(resp);
